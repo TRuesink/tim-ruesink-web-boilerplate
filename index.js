@@ -7,16 +7,16 @@ require('colors');
 const app = express();
 
 // Routers
+const publicResourceRouter = require('./routers/publicResourceRouter');
 
 // Middlewares
 app.use(morgan('dev'));
 
-app.get('/', (req, res) => {
-    res.json({message:"hello world"});
-})
+// Mount Routers
+app.use('/api/v1/public_resource', publicResourceRouter);
 
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`.yellow)
+  console.log(`Server running on port ${PORT}`.cyan.bold);
 });
