@@ -14,6 +14,10 @@ exports.getAllPublicResource = (req, res) => {
 // Route: GET /api/v1/public_resource/:id
 // Access: PUBLIC
 exports.getOnePublicResource = (req, res) => {
+  if (req.params.id.length < 5) {
+    throw new Error('ID is not greater than 5');
+  }
+
   res.json({
     success: true,
     message: `Here is the Public Resource with the ID: ${req.params.id}`,
