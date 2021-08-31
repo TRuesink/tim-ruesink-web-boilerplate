@@ -24,8 +24,8 @@ const authRouter = require('./routers/authRouter');
 app.use(
   session({
     name: 'tim-ruesink-web-boilerplate-cookie',
-    keys: ['a;sdklfjam,nc,mh'],
-    maxAge: 15 * 24 * 60 * 60 * 1000,
+    keys: [process.env.COOKIE_KEY],
+    maxAge: 60 * 1000,
   })
 );
 app.use(morgan('dev'));

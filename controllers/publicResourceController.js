@@ -4,10 +4,11 @@
 // Route: GET /api/v1/public_resource
 // Access: PUBLIC
 exports.getAllPublicResource = (req, res) => {
+  const loggedInUser = req.user ? req.user[0].email : 'No User';
   res.json({
     success: true,
     message: 'List of All Public Resource',
-    user: req.user,
+    user: loggedInUser,
   });
 };
 

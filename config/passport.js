@@ -4,21 +4,24 @@ const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const dummyDB = {
   User: [
     {
-      id: 110321219224552213284,
+      id: '110321219224552213284',
       name: 'Tim Ruesink',
       email: 'timothy.ruesink@gmail.com',
+    },
+    {
+      id: '101662193870953487028',
+      name: 'Tim Ruesink',
+      email: 'timswhimz@gmail.com',
     },
   ],
 };
 
 passport.serializeUser((user, done) => {
-  console.log('User is seralized');
   done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-  console.log('user is deserialized');
-  const user = dummyDB.User.filter((user) => (user.id = id));
+  const user = dummyDB.User.filter((user) => user.id === id);
   done(null, user);
 });
 
