@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 
 const {
   authGoogle,
@@ -11,6 +12,12 @@ const { logOut } = require('../controllers/authController');
 const router = express.Router();
 
 router.route('/google').get(authGoogle);
+
+router
+  .route('/google-token')
+  .get(passport.authenticate('google-token'), (req, res) => {
+    res.json({ success: true, user: req.user });
+  }); // FOR DEVELOPMENT ONLY
 
 router.route('/google/callback').get(authGoogleCallback);
 

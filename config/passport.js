@@ -1,5 +1,6 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
+const GoogleTokenStrategy = require('passport-google-token').Strategy;
 
 const dummyDB = {
   User: [
@@ -34,6 +35,24 @@ passport.use(
       passReqToCallback: true,
     },
     (req, accessToken, refreshToken, profile, done) => {
+      const user = {
+        id: profile.id,
+        name: profile._json.name,
+        email: profile._json.email,
+      };
+      done(null, user);
+    }
+  )
+);
+
+passport.use(
+  new GoogleTokenStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    },
+    (accessToken, refreshToken, profile, done) => {
+      console.log(profile);
       const user = {
         id: profile.id,
         name: profile._json.name,

@@ -25,7 +25,7 @@ app.use(
   session({
     name: 'tim-ruesink-web-boilerplate-cookie',
     keys: [process.env.COOKIE_KEY],
-    maxAge: 60 * 1000,
+    maxAge: 1 * 60 * 60 * 1000,
   })
 );
 app.use(morgan('dev'));
