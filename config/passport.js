@@ -1,6 +1,6 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
-const GoogleTokenStrategy = require('passport-google-token').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 
 const dummyDB = {
   User: [
@@ -14,10 +14,17 @@ const dummyDB = {
       name: 'Tim Ruesink',
       email: 'timswhimz@gmail.com',
     },
+    {
+      id: '1',
+      name: 'Local User',
+      email: 'localuser@email.com',
+      password: 'password',
+    },
   ],
 };
 
 passport.serializeUser((user, done) => {
+  console.log('serialized');
   done(null, user.id);
 });
 
@@ -46,19 +53,15 @@ passport.use(
 );
 
 passport.use(
-  new GoogleTokenStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    },
-    (accessToken, refreshToken, profile, done) => {
-      console.log(profile);
-      const user = {
-        id: profile.id,
-        name: profile._json.name,
-        email: profile._json.email,
-      };
-      done(null, user);
+  new LocalStrategy((username, password, done) => {
+    const user = dummyDB.User.filter((user) => user.email === username)[0];
+    console.log(user);
+    if (!user) {
+      return done(null, false);
     }
-  )
+    if (user.password !== password) {
+      return done(null, false);
+    }
+    return done(null, user);
+  })
 );

@@ -46,3 +46,13 @@ exports.logOut = (req, res) => {
     message: 'User is logged out',
   });
 };
+
+// Description: Log in user using user name and password
+// Route: POST /api/v1/auth/local
+// Access: PUBLIC
+exports.authLocal = (req, res) => {
+  res.json({
+    success: true,
+    userData: req.user,
+  });
+};
